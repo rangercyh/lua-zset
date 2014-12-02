@@ -1,54 +1,23 @@
-local zset = require "zset"
+local skiplist = require "skiplist"
 
-local total = 100
-local all = {}
-for i=1, total do
-    all[#all + 1] = i
-end
 
-local function random_choose(t)
-    if #t == 0 then
-        return
-    end
-    local i = math.random(#t)
-    return table.remove(t, i)
-end
+local test = skiplist.new()
+print(test:add("aaa", 99))
+test:add("bbb", 11)
+test:add("ccc", 5)
+test:add("ddd", 15)
+print(test:rank("aaa"))
+print(test:rank("bbb"))
+print(test:rank("asdfff"))
+print(test:count())
+print(test:remove("bbb"))
+print(test:count())
+print(test:rank("bbb"))
+print(test:score("aaa"))
+print(test:score_by_name("bbb"))
+print(test:score_by_rank(1))
+print(test:delete(1))
+local s = test:range_by_rank(1, 5)
+local t = test:range_by_score(10, 100)
+test:dump()
 
-local zs = zset.new()
-
-while true do
-    local score = random_choose(all)
-    if not score then
-        break
-    end
-    local name = "a" .. score
-    zs:add(score, name)
-end
-
-assert(total == zs:count())
-
-print("rank 28:", zs:rank("a28"))
-print("rev rank 28:", zs:rev_rank("a28"))
-
-local t = zs:range(1, 10)
-print("rank 1-10:")
-for _, name in ipairs(t) do
-    print(name)
-end
-
-local t = zs:rev_range(1, 10)
-print("rev rank 1-10:")
-for _, name in ipairs(t) do
-    print(name)
-end
-
-print("------------------ dump ------------------")
-zs:dump()
-
-print("------------------ dump after limit 10 ------------------")
-zs:limit(10)
-zs:dump()
-
-print("------------------ dump after rev limit 5 ------------------")
-zs:rev_limit(5)
-zs:dump()
