@@ -17,7 +17,8 @@ print(test:score("aaa"))
 print(test:score_by_name("bbb"))
 print(test:score_by_rank(1))
 print(test:delete(1))
-local s = test:range_by_rank(1, 5)
-local t = test:range_by_score(10, 100)
 test:dump()
+local s = test:range_by_rank(1, 5)
+--local t = test:range_by_score(10, 100)
+
 

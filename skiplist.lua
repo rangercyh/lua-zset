@@ -12,7 +12,7 @@ function mt:add(name, score)
 		end
 		self.sl:remove(name)
 	end
-	self.sl:insert(name, score)
+	local rank = self.sl:insert(name, score)
 	self.tbl[name] = score
 	return rank
 end
@@ -20,8 +20,9 @@ end
 --根据name删除
 function mt:remove(name)
 	local score = self.tbl[name]
+	local rank = -1
 	if score then
-		self.sl:remove(name)
+		rank = self.sl:remove(name)
 		self.tbl[name] = nil
 	end
 	return rank, score
@@ -29,8 +30,8 @@ end
 
 --根据rank删除
 function mt:delete(rank)
-	local name, score = self.sl:delete(rank)
-	return name, score
+	local name = self.sl:delete(rank)
+	return name, self.tbl[name]
 end
 
 --根据name获得rank
@@ -60,15 +61,22 @@ end
 }
 ]]
 function mt:range_by_rank(begin, end)
-	return self.sl:range_by_rank(begin, end)
+	local ret = {}
+	local tbName = self.sl:range_by_rank(begin, end)
+	if type(tbName) == "table" then
+		for i = 1, #tbName do
+			ret[i] = { tbName[i], self.tbl[tbName[i]] }
+		end
+	end
+	return ret
 end
 
 --返回score在begin到end之间的所有数据
-function mt:range_by_score(begin, end)
-	return self.sl:range_by_score(begin, end)
-end
+--function mt:range_by_score(begin, end)
+--	return self.sl:range_by_score(begin, end)
+--end
 
---内存整理
+--打印
 function mt:dump()
 	self.sl:dump()
 end
