@@ -33,13 +33,16 @@ skiplist *slCreate(void);
 void slFree(skiplist *sl);
 void slDump(skiplist *sl);
 
-void slInsert(skiplist *sl, double score, slobj *obj);
+int slInsert(skiplist *sl, double score, slobj *obj);
 int slDelete(skiplist *sl, double score, slobj *obj);
-unsigned long slDeleteByRank(skiplist *sl, unsigned int start, unsigned int end, slDeleteCb cb, void* ud);
+int slRemove(skiplist *sl, const char *name, size_t len);
+//unsigned long slDeleteByRank(skiplist *sl, unsigned int start, unsigned int end, slDeleteCb cb, void* ud);
 
-unsigned long slGetRank(skiplist *sl, double score, slobj *o);
+//unsigned long slGetRank(skiplist *sl, double score, slobj *o);
+unsigned long slGetRank(skiplist *sl, const char *name, size_t len);
+double slGetScore(skiplist *sl, unsigned long rank);
 skiplistNode* slGetNodeByRank(skiplist *sl, unsigned long rank);
 
-skiplistNode *slFirstInRange(skiplist *sl, double min, double max);
-skiplistNode *slLastInRange(skiplist *sl, double min, double max);
+//skiplistNode *slFirstInRange(skiplist *sl, double min, double max);
+//skiplistNode *slLastInRange(skiplist *sl, double min, double max);
 

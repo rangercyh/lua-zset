@@ -274,64 +274,65 @@ skiplistNode* slGetNodeByRank(skiplist *sl, unsigned long rank) {
 
 /* range [min, max], left & right both include */
 /* Returns if there is a part of the zset is in range. */
-int slIsInRange(skiplist *sl, double min, double max) {
-    skiplistNode *x;
+// int slIsInRange(skiplist *sl, double min, double max) {
+//     skiplistNode *x;
 
-    /* Test for ranges that will always be empty. */
-    if(min > max) {
-        return 0;
-    }
-    x = sl->tail;
-    if (x == NULL || x->score < min)
-        return 0;
+//     /* Test for ranges that will always be empty. */
+//     if(min > max) {
+//         return 0;
+//     }
+//     x = sl->tail;
+//     if (x == NULL || x->score < min)
+//         return 0;
 
-    x = sl->header->level[0].forward;
-    if (x == NULL || x->score > max)
-        return 0;
-    return 1;
-}
+//     x = sl->header->level[0].forward;
+//     if (x == NULL || x->score > max)
+//         return 0;
+//     return 1;
+// }
 
 /* Find the first node that is contained in the specified range.
  * Returns NULL when no element is contained in the range. */
-skiplistNode *slFirstInRange(skiplist *sl, double min, double max) {
-    skiplistNode *x;
-    int i;
+// skiplistNode *slFirstInRange(skiplist *sl, double min, double max) {
+//     skiplistNode *x;
+//     int i;
 
-    /* If everything is out of range, return early. */
-    if (!slIsInRange(sl,min, max)) return NULL;
+//     /* If everything is out of range, return early. */
+//     if (!slIsInRange(sl,min, max)) return NULL;
 
-    x = sl->header;
-    for (i = sl->level-1; i >= 0; i--) {
-        /* Go forward while *OUT* of range. */
-        while (x->level[i].forward && x->level[i].forward->score < min)
-                x = x->level[i].forward;
-    }
+//     x = sl->header;
+//     for (i = sl->level-1; i >= 0; i--) {
+//         /* Go forward while *OUT* of range. */
+//         while (x->level[i].forward && x->level[i].forward->score < min)
+//                 x = x->level[i].forward;
+//     }
 
-    /* This is an inner range, so the next node cannot be NULL. */
-    x = x->level[0].forward;
-    return x;
-}
+//     /* This is an inner range, so the next node cannot be NULL. */
+//     x = x->level[0].forward;
+//     return x;
+// }
+
 
 /* Find the last node that is contained in the specified range.
  * Returns NULL when no element is contained in the range. */
-skiplistNode *slLastInRange(skiplist *sl, double min, double max) {
-    skiplistNode *x;
-    int i;
+// skiplistNode *slLastInRange(skiplist *sl, double min, double max) {
+//     skiplistNode *x;
+//     int i;
 
-    /* If everything is out of range, return early. */
-    if (!slIsInRange(sl, min, max)) return NULL;
+//     /* If everything is out of range, return early. */
+//     if (!slIsInRange(sl, min, max)) return NULL;
 
-    x = sl->header;
-    for (i = sl->level-1; i >= 0; i--) {
-        /* Go forward while *IN* range. */
-        while (x->level[i].forward &&
-            x->level[i].forward->score <= max)
-                x = x->level[i].forward;
-    }
+//     x = sl->header;
+//     for (i = sl->level-1; i >= 0; i--) {
+//         /* Go forward while *IN* range. */
+//         while (x->level[i].forward &&
+//             x->level[i].forward->score <= max)
+//                 x = x->level[i].forward;
+//     }
 
-    /* This is an inner range, so this node cannot be NULL. */
-    return x;
-}
+//     /* This is an inner range, so this node cannot be NULL. */
+//     return x;
+// }
 
 void slDump(skiplist *sl) {
     skiplistNode *x;
@@ -342,7 +343,7 @@ void slDump(skiplist *sl) {
     while(x->level[0].forward) {
         x = x->level[0].forward;
         i++;
-        printf("node %d: score:%f, member:%s\n", i, x->score, x->obj->ptr);
+        printf("node %d: score:%f, name:%s\n", i, x->score, x->obj->ptr);
     }
 }
 

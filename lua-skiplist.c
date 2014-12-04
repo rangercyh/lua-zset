@@ -37,7 +37,7 @@ _remove(lua_State *L) {
     luaL_checktype(L, 2, LUA_TSTRING);
     size_t len;
     const char* ptr = lua_tolstring(L, 2, &len);
-    lua_pushunsigned(slRemove(sl, ptr, len));
+    lua_pushunsigned(L, slRemove(sl, ptr, len));
     return 1;
 }
 
@@ -74,7 +74,7 @@ static int
 _score_by_rank(lua_State *L) {
     skiplist *sl = _to_skiplist(L);
     unsigned long rank = luaL_checknumber(L, 2);
-    lua_pushunsigned(L, slGetScore(sl, rank));
+    lua_pushnumber(L, slGetScore(sl, rank));
     return 1;
 }
 
